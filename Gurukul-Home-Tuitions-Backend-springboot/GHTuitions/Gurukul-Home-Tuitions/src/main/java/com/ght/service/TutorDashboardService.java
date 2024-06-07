@@ -1,6 +1,7 @@
 package com.ght.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,10 @@ public class TutorDashboardService {
 
 	    public List<TutorDashboard> getAllDashboards() {
 	        return repository.findAll();
+	    }
+	    
+	    public Optional<TutorDashboard> findById(Long id) {
+	        return repository.findById(id);
 	    }
 
 	    

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ght.model.PersonalDetails;
+import com.ght.model.TutorDashboard;
 import com.ght.model.TutorDetails;
 import com.ght.service.TutorRegistrationService;
 
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/tutors")
@@ -93,4 +95,11 @@ public class TutorRegistrationController {
             return new ResponseEntity<>("Failed to register tutor: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    
+    @GetMapping("/{id}")
+    public Optional<TutorDetails> getEntityById(@PathVariable Long id) {
+        return tutorRegistrationService.findById(id);
+    }
+    
 }
