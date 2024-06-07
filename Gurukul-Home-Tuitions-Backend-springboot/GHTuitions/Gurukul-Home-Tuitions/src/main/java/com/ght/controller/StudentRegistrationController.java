@@ -30,6 +30,17 @@ public class StudentRegistrationController {
 	    public List<Student> getAllStudents() {
 	        return studentRegistrationService.getAllStudents();
 	    }
+	    
+
+	    @PostMapping("/login")
+	    public String login(@RequestBody Student loginStudent) {
+	        boolean isAuthenticated = studentRegistrationService.authenticate(loginStudent.getEmail(), loginStudent.getPassword());
+	        if (isAuthenticated) {
+	            return "Login successful";
+	        } else {
+	            return "Invalid email or password";
+	        }
+	    }
 
 	    @GetMapping("/{id}")
 	    public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
@@ -92,6 +103,7 @@ public class StudentRegistrationController {
 	        }
 	    }
 
+	    
 	    @DeleteMapping("/{id}")
 	    public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
 	        studentRegistrationService.deleteStudent(id);
