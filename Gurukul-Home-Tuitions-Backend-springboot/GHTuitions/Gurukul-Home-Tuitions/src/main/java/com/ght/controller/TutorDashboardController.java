@@ -10,25 +10,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ght.model.Payments;
-import com.ght.service.PaymentsService;
+import com.ght.model.TutorDashboard;
+import com.ght.service.TutorDashboardService;
+
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/api/payments")
-public class PaymentsController {
+@RequestMapping("/api/tutordashboard")
+public class TutorDashboardController {
 
-	@Autowired
-	private PaymentsService paymentsService;
+	   @Autowired
+	    private TutorDashboardService service;
 
-	@GetMapping
-	public List<Payments> getAllPayments() {
-		return paymentsService.getAllPayments();
-	}
+	    @PostMapping("/save")
+	    public TutorDashboard saveDashboard(@RequestBody TutorDashboard dashboard) {
+	        return service.saveDashboard(dashboard);
+	    }
 
-	@PostMapping
-	public Payments createPayments(@RequestBody Payments payments) {
-		return paymentsService.savePayments(payments);
-	}
-
+	    @GetMapping
+	    public List<TutorDashboard> getAllDashboards() {
+	        return service.getAllDashboards();
+	    }
+	
+	
 }
