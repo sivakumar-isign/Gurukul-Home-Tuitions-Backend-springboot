@@ -1,6 +1,7 @@
 package com.ght.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ght.model.Student;
+import com.ght.repository.StudentRegistrationRepository;
 import com.ght.service.StudentRegistrationService;
 
 @CrossOrigin(origins = "*")
@@ -25,6 +27,9 @@ public class StudentRegistrationController {
 
 	    @Autowired
 	    private StudentRegistrationService studentRegistrationService;
+	    
+	    @Autowired
+	    private StudentRegistrationRepository studentRegistrationRepository;
 
 	    @GetMapping
 	    public List<Student> getAllStudents() {
@@ -108,6 +113,13 @@ public class StudentRegistrationController {
 	    public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
 	        studentRegistrationService.deleteStudent(id);
 	        return ResponseEntity.noContent().build();
+	    }
+	    
+	    
+	    @GetMapping("/names")
+	    public List<String> getStudentNames() {
+	        List<Student> students = studentRegistrationRepository.findAll();
+	        return students.stream().map(Student::getName).collect(Collectors.toList());
 	    }
 	}
 
