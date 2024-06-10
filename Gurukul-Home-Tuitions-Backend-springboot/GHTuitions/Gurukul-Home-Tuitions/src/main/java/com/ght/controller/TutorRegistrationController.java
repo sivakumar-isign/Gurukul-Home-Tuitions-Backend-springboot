@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -25,7 +26,7 @@ public class TutorRegistrationController {
     @Autowired
     private TutorRegistrationService tutorRegistrationService;
 
-    private final Path rootLocation = Paths.get("uploads");
+    private final Path rootLocation = Paths.get("uploads");	
 
     public TutorRegistrationController() {
         try {
@@ -101,5 +102,11 @@ public class TutorRegistrationController {
     public Optional<TutorDetails> getEntityById(@PathVariable Long id) {
         return tutorRegistrationService.findById(id);
     }
+    
+    @GetMapping
+    public List<TutorDetails> getAllTutors() {
+        return tutorRegistrationService.getAllTutors();
+    }
+    
     
 }

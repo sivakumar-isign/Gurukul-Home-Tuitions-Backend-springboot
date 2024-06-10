@@ -31,7 +31,7 @@ public class StudentRegistrationController {
 	    @Autowired
 	    private StudentRegistrationRepository studentRegistrationRepository;
 
-	    @GetMapping
+	    @GetMapping("all")
 	    public List<Student> getAllStudents() {
 	        return studentRegistrationService.getAllStudents();
 	    }
@@ -116,10 +116,14 @@ public class StudentRegistrationController {
 	    }
 	    
 	    
-	    @GetMapping("/names")
-	    public List<String> getStudentNames() {
-	        List<Student> students = studentRegistrationRepository.findAll();
-	        return students.stream().map(Student::getName).collect(Collectors.toList());
-	    }
+//	    @GetMapping("/names")
+//	    public List<String> getStudentNames() {
+//	        List<Student> students = studentRegistrationRepository.findAll();
+//	        return students.stream().map(Student::getName).collect(Collectors.toList());
+//	    }
+	    
+
+	 
+	    
 	}
 

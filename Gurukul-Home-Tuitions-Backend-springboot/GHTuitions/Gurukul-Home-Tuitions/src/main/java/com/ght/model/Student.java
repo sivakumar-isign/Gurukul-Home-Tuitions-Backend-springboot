@@ -61,6 +61,19 @@ public class Student {
 //    private List<TutorDetails> tutorDetails;
 //    
     
+	public Student(String name2, String email2) {
+		this.name = name2;
+		this.email = email2;
+		
+	}
+	
+	
+	public Student() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
 	public String getName() {
 		return name;
 	}
