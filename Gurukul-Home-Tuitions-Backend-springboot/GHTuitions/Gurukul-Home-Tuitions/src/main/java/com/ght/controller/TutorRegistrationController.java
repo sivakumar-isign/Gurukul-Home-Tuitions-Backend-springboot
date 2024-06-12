@@ -1,22 +1,29 @@
 package com.ght.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.ght.model.PersonalDetails;
-import com.ght.model.TutorDashboard;
-import com.ght.model.TutorDetails;
-import com.ght.service.TutorRegistrationService;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.ght.model.PersonalDetails;
+import com.ght.model.TutorDetails;
+import com.ght.repository.TutorDetailsRepository;
+import com.ght.service.TutorRegistrationService;
 
 @RestController
 @RequestMapping("/api/tutors")
@@ -25,6 +32,9 @@ public class TutorRegistrationController {
 
     @Autowired
     private TutorRegistrationService tutorRegistrationService;
+    
+    @Autowired
+    private TutorDetailsRepository  tutorDetailsRepository;
 
     private final Path rootLocation = Paths.get("uploads");	
 
@@ -63,6 +73,10 @@ public class TutorRegistrationController {
             @RequestParam("mobileNo") String mobileNo,
             @RequestParam("email") String email,
             @RequestParam("password") String password,
+            @RequestParam(value = "maths", required = false) String maths,
+            @RequestParam(value = "physics", required = false) String physics,
+            @RequestParam(value = "chemistry", required = false) String chemistry,
+            @RequestParam(value = "social", required = false) String social,
             @RequestParam("resume") MultipartFile resume,
             @RequestParam("drivingLicense") MultipartFile drivingLicense,
             @RequestParam("addressProof") MultipartFile addressProof,
@@ -89,6 +103,21 @@ public class TutorRegistrationController {
 //                tutorDetails.setImage(photo.getBytes());
             	 tutorDetails.setImage(storeFile(photo));
             }
+            StringBuilder selectedSubjects = new StringBuilder();
+
+            if (maths.equals("true")) {
+                selectedSubjects.append("Maths ");
+            }
+            if (chemistry.equals("true")) {
+                selectedSubjects.append("Chemistry ");
+            }
+            if (physics.equals("true")) {
+                selectedSubjects.append("Physics ");
+            }
+            if (social.equals("true")) {
+                selectedSubjects.append("Social ");
+            }
+            tutorDetails.setExpertinclass(String.join(",", selectedSubjects));
 
             TutorDetails registeredTutor = tutorRegistrationService.registerTutor(tutorDetails);
             return new ResponseEntity<>(registeredTutor, HttpStatus.CREATED);
